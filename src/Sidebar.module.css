@@ -1,0 +1,30 @@
+.sidebar {
+  width: 16rem; /* w-64 */
+  background: rgba(255, 255, 255, 0.05); /* bg-white/5 */
+  border-radius: 1rem; /* rounded-2xl */
+  padding: 1rem; /* p-4 */
+  color: white; /* text-white */
+}
+
+.logo {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: bold; /* font-bold */
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  padding: 0.5rem; /* p-2 */
+  border-radius: 0.5rem; /* rounded-lg */
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.menuItem:hover {
+  background: rgba(255, 255, 255, 0.1); /* hover:bg-white/10 */
+}
