@@ -5,7 +5,7 @@ export default function Section({ title, right, children }) {
         <h2>{title}</h2>
         {right}
       </div>
-      {children}
+      <div className="section-body">{children}</div>
     </section>
   );
 }

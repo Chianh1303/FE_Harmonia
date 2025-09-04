@@ -1,21 +1,19 @@
-import Icon from "./Icon";
-
 export default function Header({ query, setQuery }) {
   return (
-    <div className="header">
-      <div className="search-box">
-        <Icon name="search" className="icon search-icon" />
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Tìm bài hát, nghệ sĩ, playlist…"
+    <header className="header">
+      <input
+        className="search"
+        placeholder="Tìm kiếm bài hát, nghệ sĩ, playlist..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <div className="user">
+        <img
+          src="https://i.pravatar.cc/40"
+          alt="avatar"
+          className="avatar"
         />
       </div>
-      <img
-        src="https://i.pravatar.cc/40?img=13"
-        alt="avatar"
-        className="avatar"
-      />
-    </div>
+    </header>
   );
 }

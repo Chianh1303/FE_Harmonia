@@ -1,44 +1,54 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function useAudioPlayer(initialTrack) {
-  const audioRef = useRef(null);
-  const [track, setTrack] = useState(initialTrack);
+  const [track, setTrack] = useState(initialTrack ?? null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(1);
+  const [volume, setVolume] = useState(0.9);
+  const audioRef = useRef(null);
 
   useEffect(() => {
-    if (!audioRef.current) return;
-    audioRef.current.src = track?.url ?? "";
-    audioRef.current.load();
-    if (isPlaying) audioRef.current.play();
-  }, [track]);
-
-  useEffect(() => {
-    if (!audioRef.current) return;
-    isPlaying ? audioRef.current.play() : audioRef.current.pause();
-  }, [isPlaying]);
-
-  useEffect(() => {
-    if (!audioRef.current) return;
-    audioRef.current.volume = volume;
+    if (audioRef.current) audioRef.current.volume = volume;
   }, [volume]);
-
-  const toggle = () => setIsPlaying((p) => !p);
-  const seek = (val) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = val;
-      setProgress(val);
-    }
-  };
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    const updateProgress = () => setProgress(audio.currentTime);
-    audio.addEventListener("timeupdate", updateProgress);
-    return () => audio.removeEventListener("timeupdate", updateProgress);
+    const onTime = () => setProgress(audio.currentTime);
+    const onEnded = () => setIsPlaying(false);
+    audio.addEventListener("timeupdate", onTime);
+    audio.addEventListener("ended", onEnded);
+    return () => {
+      audio.removeEventListener("timeupdate", onTime);
+      audio.removeEventListener("ended", onEnded);
+    };
   }, []);
 
-  return { audioRef, track, setTrack, isPlaying, setIsPlaying, progress, seek, toggle, volume, setVolume };
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !track) return;
+    audio.src = track.url;
+    audio.currentTime = 0;
+    if (isPlaying) audio.play().catch(() => {});
+  }, [track]);
+
+  const toggle = () => {
+    const audio = audioRef.current;
+    if (!audio || !track) return;
+    if (isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    } else {
+      audio.play().then(() => setIsPlaying(true)).catch(() => {});
+    }
+  };
+
+  const seek = (time) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = time;
+      setProgress(time);
+    }
+  };
+
+  return { track, setTrack, isPlaying, setIsPlaying, progress, setProgress, volume, setVolume, toggle, seek, audioRef };
 }
