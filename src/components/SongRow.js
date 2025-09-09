@@ -9,13 +9,25 @@ function SongRow({ index, song, active, onClick }) {
       onClick={onClick}
       className={`song-row ${active ? "active" : ""}`}
     >
-      <span>{index}</span>
+      {/* Rank */}
+      <div className="song-rank">{index}</div>
+
+      {/* Cover */}
       <img src={song.cover} alt={song.title} className="song-cover" />
+
+      {/* Info */}
       <div className="song-info">
-        <div>{song.title}</div>
+        <div className="title">{song.title}</div>
         <div className="artist">{song.artist}</div>
       </div>
-      <div className="song-duration">{Math.round(song.duration)}s</div>
+
+      {/* Duration */}
+      <div className="song-duration">
+        {Math.floor(song.duration / 60)}:
+        {String(Math.floor(song.duration % 60)).padStart(2, "0")}
+      </div>
+
+      {/* Heart */}
       <div className="song-heart">
         <Icon name="heart" className="icon" />
       </div>

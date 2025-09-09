@@ -6,6 +6,12 @@
   margin: 0;
   padding: 0;
 }
+html, body, .app {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px; /* đồng bộ cỡ chữ */
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
 
 body, .app {
   font-family: 'Poppins', sans-serif;
@@ -45,39 +51,62 @@ body, .app {
   color: #fff;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 1rem 0;
   z-index: 1001;
   overflow-y: auto;
 }
+
+/* Logo */
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
+  margin-bottom: 2rem;
 }
+
+/* Nav */
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  padding: 0 1rem;
 }
+
 .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   color: #d1d5db;
   text-decoration: none;
   font-size: 0.95rem;
-  transition: color 0.2s;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+  transition: background 0.2s, color 0.2s;
 }
+
 .nav-link:hover {
+  background: #1f2937;
   color: white;
 }
+
+.nav-link .icon {
+  font-size: 1.2rem;
+}
+
+/* Premium box */
 .premium-box {
   background: #1f2937;
   padding: 1rem;
+  margin: 2rem 1rem 0;
   border-radius: 0.5rem;
   text-align: center;
 }
+
 .premium-title {
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
+
 .btn {
   background: #3b82f6;
   color: white;
@@ -90,6 +119,7 @@ body, .app {
 .btn:hover {
   background: #2563eb;
 }
+
 
 /* Header */
 .header {
@@ -107,25 +137,46 @@ body, .app {
   align-items: center;
   border-bottom: 1px solid #374151;
 }
-.search-box {
+.search-bar {
   display: flex;
   align-items: center;
-  background: #f3f4f6;
-  padding: 0.5rem 0.75rem;
+  background: #1f2937;  /* màu nền tối */
   border-radius: 9999px;
-  width: 300px;
+  padding: 0.5rem 1rem;
+  width: 60%;
+  max-width: 500px;
+  transition: all 0.3s ease;
 }
-.search-box input {
+
+.search-bar .icon {
+  font-size: 1rem;
+  color: #9ca3af;
+  margin-right: 0.5rem;
+}
+
+.search-bar input {
+  flex: 1;
+  background: transparent;
   border: none;
   outline: none;
-  background: transparent;
-  margin-left: 0.5rem;
-  flex: 1;
+  color: white;
+  font-size: 0.95rem;
 }
-.avatar {
+
+.search-bar input::placeholder {
+  color: #9ca3af;
+}
+
+.search-bar:focus-within {
+  background: #374151;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.user .avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 /* Main */
@@ -138,15 +189,91 @@ body, .app {
   min-height: calc(100vh - 64px - 100px);
 }
 
+/* --- Song Row (giống ZingMP3 BXH) --- */
+.song-row {
+  display: grid;
+  grid-template-columns: 40px 50px 1fr auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.song-row:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateX(2px);
+}
+.song-row.active {
+  background: rgba(59,130,246,0.15);
+}
+
+.song-rank {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #9ca3af;
+  width: 30px;
+  text-align: center;
+}
+.song-row:nth-child(1) .song-rank { color: #ef4444; } /* hạng 1 đỏ */
+.song-row:nth-child(2) .song-rank { color: #f59e0b; } /* hạng 2 cam */
+.song-row:nth-child(3) .song-rank { color: #10b981; } /* hạng 3 xanh lá */
+
+.song-cover {
+  width: 50px;
+  height: 50px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.song-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.song-info .title {
+  font-weight: 600;
+  color: #f3f4f6;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.song-info .artist {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.song-duration {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-right: 0.5rem;
+}
+
+.song-heart {
+  color: #9ca3af;
+  transition: color 0.2s;
+}
+.song-heart:hover {
+  color: #ef4444;
+}
+
+/* --- Hero Section --- */
 .hero {
   display: flex;
   gap: 2rem;
   margin-bottom: 2rem;
+  align-items: stretch; /* banner và chart cao bằng nhau */
 }
 
+/* Banner bên trái */
 .hero-banner {
-  position: relative;
   flex: 2;
+  position: relative;
   border-radius: 1rem;
   overflow: hidden;
 }
@@ -169,60 +296,105 @@ body, .app {
   left: 1rem;
   color: white;
 }
-
 .hero-title {
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 700;
+}
+.hero-text p {
+  font-size: 0.9rem;
+  color: #d1d5db;
+  margin-top: 0.25rem;
 }
 
+/* Chart mini bên phải */
 .hero-chart {
   flex: 1;
-  background: white;
-  border-radius: 0.75rem;
+  background: #111827;
+  border-radius: 1rem;
   padding: 1rem;
-  max-height: 280px; /* 👈 bằng với banner */
+  max-height: 100%; /* bám theo banner */
   overflow-y: auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
+.hero-chart h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #f3f4f6;
+}
 
-
-/* Song Row */
-.song-row {
+/* New Releases */
+.grid {
   display: grid;
-  grid-template-columns: 30px 40px 1fr auto auto;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  background: transparent;
-  border: none;
-  text-align: left;
-  padding: 0.5rem;
-  border-radius: 0.375rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.release-card {
+  position: relative;
+  background: #1f2937;
+  color: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
 }
-.song-row:hover {
-  background: #374151;
+
+.release-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
-.song-row.active {
-  background: #2563eb;
-}
-.song-cover {
-  width: 40px;
-  height: 40px;
-  border-radius: 0.375rem;
+
+.release-img {
+  width: 100%;
+  aspect-ratio: 1; /* 👈 luôn vuông giống ZingMP3 */
   object-fit: cover;
 }
-.song-info .artist {
+
+.release-content {
+  padding: 0.75rem;
+}
+
+.release-content div:first-child {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.release-content .artist {
   font-size: 0.85rem;
   color: #9ca3af;
 }
-.song-duration {
-  font-size: 0.85rem;
-  color: #9ca3af;
+
+/* Play Button overlay */
+.release-btn {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
-.song-heart {
-  color: #9ca3af;
+
+.release-card:hover .release-btn {
+  opacity: 1;
 }
+
+.release-btn:hover {
+  background: #2563eb;
+}
+
+
 
 /* Sections */
 .section {

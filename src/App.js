@@ -9,13 +9,6 @@ import Hero from "./components/Hero";
 import NewReleases from "./components/NewReleases";
 import FeaturedPlaylists from "./components/FeaturedPlaylists";
 import PlayerBar from "./components/PlayerBar";
-console.log("Sidebar:", Sidebar);
-console.log("Header:", Header);
-console.log("Hero:", Hero);
-console.log("NewReleases:", NewReleases);
-console.log("FeaturedPlaylists:", FeaturedPlaylists);
-console.log("PlayerBar:", PlayerBar);
-
 
 export default function App() {
   const player = useAudioPlayer(MOCK_SONGS[0]);
