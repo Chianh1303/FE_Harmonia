@@ -6,6 +6,7 @@ import useAudioPlayer from "./hooks/useAudioPlayer";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import ZingChart from "./components/ZingChart";
 import NewReleases from "./components/NewReleases";
 import FeaturedPlaylists from "./components/FeaturedPlaylists";
 import PlayerBar from "./components/PlayerBar";
@@ -33,6 +34,7 @@ export default function App() {
           <Hero songs={MOCK_SONGS} player={player} />
           <NewReleases songs={filtered} player={player} />
           <FeaturedPlaylists player={player} />
+          <ZingChart player={player} />
         </main>
       </div>
       <PlayerBar player={player} />

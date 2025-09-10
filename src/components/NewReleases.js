@@ -25,7 +25,7 @@ export default function NewReleases({ player }) {
       right={<a className="see-all">Xem tất cả</a>}
     >
       <div className="grid">
-        {songs.map((s) => (
+        {songs.slice(0, 5).map((s) => (
           <div key={s.id} className="release-card">
             <img src={s.cover} alt={s.title} className="release-img" />
             <div className="release-content">

@@ -9,7 +9,7 @@ export default function FeaturedPlaylists({ player }) {
       right={<a className="see-all">Xem tất cả</a>}
     >
       <div className="grid">
-        {MOCK_PLAYLISTS.map((pl) => (
+        {MOCK_PLAYLISTS.slice(0, 5).map((pl) => (
           <PlaylistCard
             key={pl.id}
             item={pl}
