@@ -26,7 +26,7 @@ export default function NewReleases({ player }) {
             <img src={s.cover} alt={s.title} className="release-img" />
             <div className="release-content">
               <div>{s.title}</div>
-              <div className="artist">{s.artist}</div>
+              <div className="artist">{s.artistName}</div>
             </div>
             <button
               onClick={() => {

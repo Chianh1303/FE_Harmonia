@@ -1,7 +1,7 @@
 import Icon from "./Icon";
 
 function SongRow({ index, song, active, onClick }) {
-  if (!song) return null; // tránh crash khi chưa có dữ liệu
+  if (!song) return null;
 
   return (
     <button
@@ -18,7 +18,7 @@ function SongRow({ index, song, active, onClick }) {
       {/* Info */}
       <div className="song-info">
         <div className="title">{song.title}</div>
-        <div className="artist">{song.artist}</div>
+        <div className="artist">{song.artist?.username || "Unknown Artist"}</div>
       </div>
 
       {/* Duration */}

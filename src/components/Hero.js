@@ -1,10 +1,24 @@
 // src/components/Hero.js
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import SongRow from "./SongRow";
 
-export default function Hero({ songs, player }) {
+export default function Hero({ player }) {
+  const [songs, setSongs] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/homeWorkSpace") // 👈 bạn tạo API BXH
+      .then((res) => {
+        setSongs(res.data);
+      })
+      .catch((err) => {
+        console.error("Lỗi khi fetch chart:", err);
+      });
+  }, []);
+
   return (
-   <div className="hero">
+    <div className="hero">
       {/* Banner */}
       <div className="hero-banner">
         <img
