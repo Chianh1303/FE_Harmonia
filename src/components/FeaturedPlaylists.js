@@ -5,7 +5,7 @@ import { MOCK_SONGS, MOCK_PLAYLISTS } from "../data/mockData";
 export default function FeaturedPlaylists({ player }) {
   return (
     <Section
-      title="Playlist nổi bật"
+      title="🎧 Playlist nổi bật"
       right={<a className="see-all">Xem tất cả</a>}
     >
       <div className="grid">

@@ -1,32 +1,36 @@
 // src/components/NewReleases.js
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Icon from "./Icon";
+import { FaPlay } from "react-icons/fa";
+import { MOCK_SONGS } from "../data/mockData";
+import Section from "./Section";
 
 export default function NewReleases({ player }) {
-  const [songs, setSongs] = useState([]);
+  const [songs, setSongs] = useState(MOCK_SONGS);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/homeWorkSpace") // 👈 gọi API backend
-      .then((res) => {
-        setSongs(res.data); // backend trả về List<SongDTO>
-      })
-      .catch((err) => {
-        console.error("Lỗi khi fetch songs:", err);
-      });
-  }, []);
+  // Uncomment khi có API thật
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8080/api/homeWorkSpace")
+  //     .then((res) => {
+  //       setSongs(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Lỗi khi fetch songs:", err);
+  //     });
+  // }, []);
 
   return (
-    <div className="new-releases">
-      <h2 className="section-title">Mới phát hành</h2>
+    <Section
+      title="🎵 Mới phát hành"
+      right={<a className="see-all">Xem tất cả</a>}
+    >
       <div className="grid">
         {songs.map((s) => (
           <div key={s.id} className="release-card">
             <img src={s.cover} alt={s.title} className="release-img" />
             <div className="release-content">
               <div>{s.title}</div>
-              <div className="artist">{s.artistName}</div>
+              <div className="artist">{s.artist}</div>
             </div>
             <button
               onClick={() => {
@@ -36,11 +40,11 @@ export default function NewReleases({ player }) {
               }}
               className="release-btn"
             >
-              <Icon name="play" className="icon" />
+              <FaPlay />
             </button>
           </div>
         ))}
       </div>
-    </div>
+    </Section>
   );
 }

@@ -1,4 +1,4 @@
-import Icon from "./Icon";
+import { FaPlay, FaPause, FaVolumeUp, FaStepBackward, FaStepForward, FaRandom, FaRedoAlt } from "react-icons/fa";
 
 export default function PlayerBar({ player }) {
   return (
@@ -24,7 +24,7 @@ export default function PlayerBar({ player }) {
           ) : (
             <div className="track-placeholder" />
           )}
-          <div>
+          <div className="track-info">
             <div className="title">
               {player.track?.title ?? "Chưa chọn bài"}
             </div>
@@ -36,17 +36,28 @@ export default function PlayerBar({ player }) {
 
         {/* Controls */}
         <div className="controls">
+          <button>
+            <FaRandom className="icon" />
+          </button>
+          <button>
+            <FaStepBackward className="icon" />
+          </button>
           <button onClick={() => player.toggle()} className="btn-play">
-            <Icon
-              name={player.isPlaying ? "pause" : "play"}
-              className="icon"
-            />
+            {player.isPlaying ? <FaPause className="icon" /> : <FaPlay className="icon" />}
+          </button>
+          <button>
+            <FaStepForward className="icon" />
+          </button>
+          <button>
+            <FaRedoAlt className="icon" />
           </button>
         </div>
 
         {/* Volume */}
         <div className="volume">
-          <Icon name="volume" className="icon" />
+          <button>
+            <FaVolumeUp className="icon" />
+          </button>
           <input
             type="range"
             min={0}

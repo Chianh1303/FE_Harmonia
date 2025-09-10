@@ -1,9 +1,9 @@
-import { FaCompass, FaChartLine, FaMusic, FaListOl, FaPlayCircle } from "react-icons/fa";
+import { FaCompass, FaChartLine, FaMusic, FaListOl, FaPlayCircle, FaCrown } from "react-icons/fa";
 
 export default function Sidebar() {
   return (
     <aside className="sidebar">
-      <div className="logo">Harmonia</div>
+      <div className="logo">🎵 Harmonia</div>
 
       <nav className="nav">
         <a href="#" className="nav-link active">
@@ -23,10 +23,12 @@ export default function Sidebar() {
         </a>
       </nav>
 
-      {/* <div className="upgrade-box">
-        <p>Nghe nhạc không quảng cáo</p>
-        <button>Nâng cấp</button>
-      </div> */}
+      <div className="premium-box">
+        <FaCrown style={{ fontSize: '24px', marginBottom: '8px' }} />
+        <div className="premium-title">Nghe nhạc chất lượng cao</div>
+        <p>Trải nghiệm âm thanh lossless</p>
+        <button className="btn">Nâng cấp VIP</button>
+      </div>
     </aside>
   );
 }

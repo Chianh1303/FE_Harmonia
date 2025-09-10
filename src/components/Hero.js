@@ -1,41 +1,44 @@
 // src/components/Hero.js
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import SongRow from "./SongRow";
+import { MOCK_SONGS } from "../data/mockData";
 
 export default function Hero({ player }) {
-  const [songs, setSongs] = useState([]);
+  const [songs, setSongs] = useState(MOCK_SONGS.slice(0, 5)); // Lấy 5 bài đầu cho chart
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/homeWorkSpace") // 👈 bạn tạo API BXH
-      .then((res) => {
-        setSongs(res.data);
-      })
-      .catch((err) => {
-        console.error("Lỗi khi fetch chart:", err);
-      });
-  }, []);
+  // Uncomment khi có API thật
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8080/api/homeWorkSpace")
+  //     .then((res) => {
+  //       setSongs(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Lỗi khi fetch chart:", err);
+  //     });
+  // }, []);
 
   return (
     <div className="hero">
       {/* Banner */}
       <div className="hero-banner">
-        <img
-          src="https://picsum.photos/800/400?random=1"
-          alt="Banner"
-          className="hero-img"
-        />
-        <div className="hero-overlay"></div>
-        <div className="hero-text">
-          <h2 className="hero-title">Top Trending Music</h2>
-          <p>Khám phá những bản hit hot nhất hôm nay</p>
+        <div className="hero-banner-inner">
+          <img
+            src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop"
+            alt="Top Trending Music"
+            className="hero-img"
+          />
+          <div className="hero-overlay"></div>
+          <div className="hero-text">
+            <h2 className="hero-title">Top Trending Music</h2>
+            <p>Khám phá những bản hit hot nhất hôm nay</p>
+          </div>
         </div>
       </div>
 
       {/* Chart */}
       <div className="hero-chart">
-        <h3 className="chart-heading">BXH hôm nay</h3>
+        <h3>🔥 BXH hôm nay</h3>
         <div className="chart-box">
           {songs.map((s, i) => (
             <SongRow
