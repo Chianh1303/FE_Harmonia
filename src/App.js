@@ -11,7 +11,7 @@ import FeaturedPlaylists from "./components/FeaturedPlaylists";
 import PlayerBar from "./components/PlayerBar";
 
 export default function App() {
-  const player = useAudioPlayer(MOCK_SONGS[0]);
+  const player = useAudioPlayer(); // Bỏ track mặc định
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {

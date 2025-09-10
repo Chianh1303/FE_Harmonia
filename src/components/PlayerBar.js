@@ -1,6 +1,11 @@
 import { FaPlay, FaPause, FaVolumeUp, FaStepBackward, FaStepForward, FaRandom, FaRedoAlt } from "react-icons/fa";
 
 export default function PlayerBar({ player }) {
+  // Chỉ hiện player khi có bài hát được chọn
+  if (!player.track) {
+    return null;
+  }
+
   return (
     <footer className="player">
       <audio ref={player.audioRef} hidden />
@@ -19,18 +24,10 @@ export default function PlayerBar({ player }) {
       <div className="player-layout">
         {/* Now Playing */}
         <div className="now-playing">
-          {player.track ? (
-            <img src={player.track.cover} className="track-img" alt="" />
-          ) : (
-            <div className="track-placeholder" />
-          )}
+          <img src={player.track.cover} className="track-img" alt="" />
           <div className="track-info">
-            <div className="title">
-              {player.track?.title ?? "Chưa chọn bài"}
-            </div>
-            <div className="artist">
-              {player.track?.artist ?? "—"}
-            </div>
+            <div className="title">{player.track.title}</div>
+            <div className="artist">{player.track.artist}</div>
           </div>
         </div>
 
