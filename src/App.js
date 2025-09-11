@@ -1,15 +1,19 @@
 import React, { useMemo, useState } from "react";
 import "./index.css";
+
 import { MOCK_SONGS } from "./data/mockData";
 import useAudioPlayer from "./hooks/useAudioPlayer";
 
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import ZingChart from "./components/ZingChart";
-import NewReleases from "./components/NewReleases";
-import FeaturedPlaylists from "./components/FeaturedPlaylists";
-import PlayerBar from "./components/PlayerBar";
+// Components
+import Sidebar from "./components/Sidebar/Sidebar";
+import Header from "./components/Header/Header";
+import Hero from "./components/Hero/Hero";
+import ZingChart from "./components/ZingChart/ZingChart";
+import NewReleases from "./components/NewReleases/NewReleases";
+import FeaturedPlaylists from "./components/FeaturedPlaylists/FeaturedPlaylists";
+import PlayerBar from "./components/PlayerBar/PlayerBar";
+import SongRow from "./components/SongRow/SongRow";
+
 
 export default function App() {
   const player = useAudioPlayer(); // Bỏ track mặc định

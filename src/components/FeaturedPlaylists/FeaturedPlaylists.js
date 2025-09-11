@@ -1,6 +1,9 @@
-import Section from "./Section";
-import PlaylistCard from "./PlaylistCard";
-import { MOCK_SONGS, MOCK_PLAYLISTS } from "../data/mockData";
+import Section from "../Section/Section";
+import PlaylistCard from "../PlaylistCard/PlaylistCard";
+import { MOCK_PLAYLISTS,MOCK_SONGS } from "../../data/mockData";
+
+
+
 
 export default function FeaturedPlaylists({ player }) {
   return (

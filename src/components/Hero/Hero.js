@@ -1,22 +1,22 @@
 // src/components/Hero.js
 import React, { useEffect, useState } from "react";
-import SongRow from "./SongRow";
-import { MOCK_SONGS } from "../data/mockData";
+import axios from "axios";
+import SongRow from "../SongRow/SongRow";
 
 export default function Hero({ player }) {
-  const [songs, setSongs] = useState(MOCK_SONGS.slice(0, 5)); // Lấy 5 bài đầu cho chart
+  const [songs, setSongs] = useState([]);
 
-  // Uncomment khi có API thật
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8080/api/homeWorkSpace")
-  //     .then((res) => {
-  //       setSongs(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.error("Lỗi khi fetch chart:", err);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/homeWorkSpace")
+      .then((res) => {
+        // Lấy 5 bài đầu tiên để hiển thị chart
+        setSongs(res.data.slice(0, 5));
+      })
+      .catch((err) => {
+        console.error("Lỗi khi fetch chart:", err);
+      });
+  }, []);
 
   return (
     <div className="hero">

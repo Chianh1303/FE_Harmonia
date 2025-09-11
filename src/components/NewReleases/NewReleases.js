@@ -1,23 +1,22 @@
 // src/components/NewReleases.js
 import { useEffect, useState } from "react";
+import axios from "axios";
 import { FaPlay } from "react-icons/fa";
-import { MOCK_SONGS } from "../data/mockData";
-import Section from "./Section";
+import Section from "../Section/Section";
 
 export default function NewReleases({ player }) {
-  const [songs, setSongs] = useState(MOCK_SONGS);
+  const [songs, setSongs] = useState([]);
 
-  // Uncomment khi có API thật
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8080/api/homeWorkSpace")
-  //     .then((res) => {
-  //       setSongs(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.error("Lỗi khi fetch songs:", err);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/homeWorkSpace") // gọi API backend
+      .then((res) => {
+        setSongs(res.data); // backend trả về List<SongDTO>
+      })
+      .catch((err) => {
+        console.error("Lỗi khi fetch songs:", err);
+      });
+  }, []);
 
   return (
     <Section
@@ -30,7 +29,7 @@ export default function NewReleases({ player }) {
             <img src={s.cover} alt={s.title} className="release-img" />
             <div className="release-content">
               <div>{s.title}</div>
-              <div className="artist">{s.artist}</div>
+              <div className="artist">{s.artistName}</div>
             </div>
             <button
               onClick={() => {

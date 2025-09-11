@@ -18,7 +18,7 @@ function SongRow({ index, song, active, onClick }) {
       {/* Info */}
       <div className="song-info">
         <div className="title">{song.title}</div>
-        <div className="artist">{song.artist || "Unknown Artist"}</div>
+        <div className="artist">{song.artistName || "Unknown Artist"}</div>
       </div>
 
       {/* Duration */}
