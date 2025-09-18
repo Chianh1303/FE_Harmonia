@@ -1,14 +1,15 @@
 // src/components/NewReleases.js
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Icon from "./Icon";
+import { FaPlay } from "react-icons/fa";
+import Section from "../Section/Section";
 
 export default function NewReleases({ player }) {
   const [songs, setSongs] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/homeWorkSpace") // 👈 gọi API backend
+      .get("http://localhost:8080/api/homeWorkSpace") // gọi API backend
       .then((res) => {
         setSongs(res.data); // backend trả về List<SongDTO>
       })
@@ -18,11 +19,13 @@ export default function NewReleases({ player }) {
   }, []);
 
   return (
-    <div className="new-releases">
-      <h2 className="section-title">Mới phát hành</h2>
+    <Section
+      title="🎵 Mới phát hành"
+      right={<a className="see-all">Xem tất cả</a>}
+    >
       <div className="grid">
-        {songs.map((s) => (
-          <div key={s.id} className="release-card">
+        {songs.slice(0, 5).map((s, index) => (
+          <div key={s.songId || index} className="release-card">
             <img src={s.cover} alt={s.title} className="release-img" />
             <div className="release-content">
               <div>{s.title}</div>
@@ -30,17 +33,16 @@ export default function NewReleases({ player }) {
             </div>
             <button
               onClick={() => {
-                player.setTrack(s);
-                player.setIsPlaying(true);
-                setTimeout(() => player.toggle(), 0);
+                player.setTrack(s);      // truyền bài hát vào player
+                player.setIsPlaying(true); // bật nhạc
               }}
               className="release-btn"
             >
-              <Icon name="play" className="icon" />
+              <FaPlay />
             </button>
           </div>
         ))}
       </div>
-    </div>
+    </Section>
   );
 }

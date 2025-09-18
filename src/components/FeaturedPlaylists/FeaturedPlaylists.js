@@ -1,15 +1,18 @@
-import Section from "./Section";
-import PlaylistCard from "./PlaylistCard";
-import { MOCK_SONGS, MOCK_PLAYLISTS } from "../data/mockData";
+import Section from "../Section/Section";
+import PlaylistCard from "../PlaylistCard/PlaylistCard";
+import { MOCK_PLAYLISTS,MOCK_SONGS } from "../../data/mockData";
+
+
+
 
 export default function FeaturedPlaylists({ player }) {
   return (
     <Section
-      title="Playlist nổi bật"
+      title="🎧 Playlist nổi bật"
       right={<a className="see-all">Xem tất cả</a>}
     >
       <div className="grid">
-        {MOCK_PLAYLISTS.map((pl) => (
+        {MOCK_PLAYLISTS.slice(0, 5).map((pl) => (
           <PlaylistCard
             key={pl.id}
             item={pl}

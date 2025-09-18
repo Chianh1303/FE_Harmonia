@@ -1,4 +1,4 @@
-import Icon from "./Icon";
+import { FaHeart } from "react-icons/fa";
 
 function SongRow({ index, song, active, onClick }) {
   if (!song) return null;
@@ -18,7 +18,7 @@ function SongRow({ index, song, active, onClick }) {
       {/* Info */}
       <div className="song-info">
         <div className="title">{song.title}</div>
-        <div className="artist">{song.artist?.username || "Unknown Artist"}</div>
+        <div className="artist">{song.artistName || "Unknown Artist"}</div>
       </div>
 
       {/* Duration */}
@@ -29,7 +29,7 @@ function SongRow({ index, song, active, onClick }) {
 
       {/* Heart */}
       <div className="song-heart">
-        <Icon name="heart" className="icon" />
+        <FaHeart />
       </div>
     </button>
   );
