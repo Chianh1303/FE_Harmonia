@@ -24,8 +24,8 @@ export default function NewReleases({ player }) {
       right={<a className="see-all">Xem tất cả</a>}
     >
       <div className="grid">
-        {songs.slice(0, 5).map((s) => (
-          <div key={s.id} className="release-card">
+        {songs.slice(0, 5).map((s, index) => (
+          <div key={s.songId || index} className="release-card">
             <img src={s.cover} alt={s.title} className="release-img" />
             <div className="release-content">
               <div>{s.title}</div>
@@ -33,9 +33,8 @@ export default function NewReleases({ player }) {
             </div>
             <button
               onClick={() => {
-                player.setTrack(s);
-                player.setIsPlaying(true);
-                setTimeout(() => player.toggle(), 0);
+                player.setTrack(s);      // truyền bài hát vào player
+                player.setIsPlaying(true); // bật nhạc
               }}
               className="release-btn"
             >

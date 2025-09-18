@@ -1,3 +1,4 @@
+// src/App.js
 import React, { useMemo, useState } from "react";
 import "./index.css";
 
@@ -12,11 +13,9 @@ import ZingChart from "./components/ZingChart/ZingChart";
 import NewReleases from "./components/NewReleases/NewReleases";
 import FeaturedPlaylists from "./components/FeaturedPlaylists/FeaturedPlaylists";
 import PlayerBar from "./components/PlayerBar/PlayerBar";
-import SongRow from "./components/SongRow/SongRow";
-
 
 export default function App() {
-  const player = useAudioPlayer(); // Bỏ track mặc định
+  const player = useAudioPlayer(); // hook quản lý player
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
@@ -36,7 +35,7 @@ export default function App() {
         <main className="main">
           <Header query={query} setQuery={setQuery} />
           <Hero songs={MOCK_SONGS} player={player} />
-          <NewReleases songs={filtered} player={player} />
+          <NewReleases player={player} />
           <FeaturedPlaylists player={player} />
           <ZingChart player={player} />
         </main>

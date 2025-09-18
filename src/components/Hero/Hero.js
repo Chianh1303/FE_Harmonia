@@ -37,24 +37,20 @@ export default function Hero({ player }) {
       </div>
 
       {/* Chart */}
-      <div className="hero-chart">
-        <h3>🔥 BXH hôm nay</h3>
-        <div className="chart-box">
-          {songs.map((s, i) => (
-            <SongRow
-              key={s.id}
-              index={i + 1}
-              song={s}
-              active={player.track?.id === s.id}
-              onClick={() => {
-                player.setTrack(s);
-                player.setIsPlaying(true);
-                setTimeout(() => player.toggle(), 0);
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      {songs.map((s, i) => (
+        <SongRow
+          key={`${s.id || "song"}-${i}`}  // đảm bảo key luôn unique
+          index={i + 1}
+          song={s}
+          active={player.track?.id === s.id}
+          onClick={() => {
+            player.setTrack(s);
+            player.setIsPlaying(true);
+            setTimeout(() => player.toggle(), 0);
+          }}
+        />
+      ))}
+
     </div>
   );
 }

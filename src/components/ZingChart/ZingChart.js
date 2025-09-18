@@ -6,7 +6,7 @@ const CHART_DATA = [
     id: 1,
     title: "Anh Đã Không Biết Cách Yêu Em",
     artist: "Quang Đăng Trần",
-    percentage: 34,
+    percentage: 50,
     cover: "https://i.pravatar.cc/60?img=1",
     trend: "up"
   },
@@ -14,7 +14,7 @@ const CHART_DATA = [
     id: 2,
     title: "Nơi Đau Giữa Hoa Bình",
     artist: "Hòa Minzy ♪, Nguyễn Văn Chung",
-    percentage: 34,
+    percentage: 20,
     cover: "https://i.pravatar.cc/60?img=2",
     trend: "stable"
   },
@@ -22,7 +22,7 @@ const CHART_DATA = [
     id: 3,
     title: "Có Con Yêu Em (Cover)",
     artist: "Quang Đăng Trần",
-    percentage: 32,
+    percentage: 30,
     cover: "https://i.pravatar.cc/60?img=3",
     trend: "down"
   }
