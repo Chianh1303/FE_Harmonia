@@ -43,7 +43,7 @@ const HOURLY_DATA = [
   { hour: '12:00', value: 82 }
 ];
 
-export default function ZingChart({ player }) {
+export default function ZingChart({ songs = [], player }) {
   const maxValue = Math.max(...HOURLY_DATA.map(d => d.value));
   
   const generatePath = () => {
@@ -71,17 +71,16 @@ export default function ZingChart({ player }) {
   };
 
   const playTrack = (track) => {
-    if (player && player.play) {
-      // Convert chart item to track format
-      const trackData = {
-        id: track.id,
-        title: track.title,
-        artist: track.artist,
-        cover: track.cover,
-        duration: 180, // 3 minutes default
-        url: "#" // placeholder
-      };
-      player.play(trackData);
+    if (player && songs.length > 0) {
+      // Find actual song from API data or use first song
+      const actualSong = songs.find(s => s.title.includes(track.title.split(' ')[0])) || songs[0];
+      if (actualSong) {
+        console.log('🎯 ZingChart: Setting track:', actualSong);
+        player.setTrack(actualSong);
+        if (!player.isPlaying) {
+          player.toggle();
+        }
+      }
     }
   };
 

@@ -4,6 +4,7 @@ import "./index.css";
 
 import { MOCK_SONGS } from "./data/mockData";
 import useAudioPlayer from "./hooks/useAudioPlayer";
+import { useSongs } from "./hooks/useSongs";
 
 // Components
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -15,18 +16,36 @@ import FeaturedPlaylists from "./components/FeaturedPlaylists/FeaturedPlaylists"
 import PlayerBar from "./components/PlayerBar/PlayerBar";
 
 export default function App() {
+  const { songs: apiSongs, loading, error } = useSongs();
   const player = useAudioPlayer(); // hook quản lý player
   const [query, setQuery] = useState("");
 
+  // Use API songs if available, fallback to mock data
+  const songs = apiSongs.length > 0 ? apiSongs : MOCK_SONGS;
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return MOCK_SONGS;
-    return MOCK_SONGS.filter(
+    if (!q) return songs;
+    return songs.filter(
       (s) =>
         s.title.toLowerCase().includes(q) ||
         s.artist.toLowerCase().includes(q)
     );
-  }, [query]);
+  }, [query, songs]);
+
+  if (loading) {
+    return (
+      <div className="app">
+        <div className="loading">
+          <div>Đang tải...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    console.warn('API Error, using mock data:', error);
+  }
 
   return (
     <div className="app">
@@ -34,10 +53,10 @@ export default function App() {
         <Sidebar />
         <main className="main">
           <Header query={query} setQuery={setQuery} />
-          <Hero songs={MOCK_SONGS} player={player} />
-          <NewReleases player={player} />
-          <FeaturedPlaylists player={player} />
-          <ZingChart player={player} />
+          <Hero songs={songs} player={player} />
+          <NewReleases songs={filtered} player={player} />
+          <FeaturedPlaylists songs={songs} player={player} />
+          <ZingChart songs={songs} player={player} />
         </main>
       </div>
       <PlayerBar player={player} />

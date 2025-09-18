@@ -27,19 +27,67 @@ export default function useAudioPlayer(initialTrack) {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio || !track) return;
-    audio.src = track.url;
+    
+    console.log('🎼 Setting new track:', track);
+    
+    // Support both 'url' and 'file' properties, prioritize 'url'
+    const audioUrl = track.url || track.file || `http://localhost:8080/api/homeWorkSpace/stream/${track.id}`;
+    console.log('🔗 Audio URL:', audioUrl);
+    
+    audio.src = audioUrl;
     audio.currentTime = 0;
-    if (isPlaying) audio.play().catch(() => {});
+    
+    // Add error handling
+    const handleError = (e) => {
+      console.error('❌ Audio error:', e);
+      console.error('❌ Audio error details:', audio.error);
+    };
+    
+    const handleCanPlay = () => {
+      console.log('✅ Audio can play');
+    };
+    
+    const handleLoadStart = () => {
+      console.log('🔄 Audio load start');
+    };
+    
+    audio.addEventListener('error', handleError);
+    audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('loadstart', handleLoadStart);
+    
+    if (isPlaying) {
+      audio.play().catch((err) => {
+        console.error('❌ Play failed:', err);
+      });
+    }
+    
+    return () => {
+      audio.removeEventListener('error', handleError);
+      audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('loadstart', handleLoadStart);
+    };
   }, [track]);
 
   const toggle = () => {
     const audio = audioRef.current;
-    if (!audio || !track) return;
+    if (!audio || !track) {
+      console.warn('⚠️ No audio or track available');
+      return;
+    }
+    
+    console.log('🎮 Toggle called. Current state:', { isPlaying, currentTime: audio.currentTime, src: audio.src });
+    
     if (isPlaying) {
       audio.pause();
       setIsPlaying(false);
+      console.log('⏸️ Audio paused');
     } else {
-      audio.play().then(() => setIsPlaying(true)).catch(() => {});
+      audio.play().then(() => {
+        setIsPlaying(true);
+        console.log('▶️ Audio playing');
+      }).catch((err) => {
+        console.error('❌ Play failed:', err);
+      });
     }
   };
 

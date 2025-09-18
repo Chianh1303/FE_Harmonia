@@ -7,15 +7,27 @@ export default function Hero({ player }) {
   const [songs, setSongs] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/homeWorkSpace")
-      .then((res) => {
-        // Lấy 5 bài đầu tiên để hiển thị chart
-        setSongs(res.data.slice(0, 5));
-      })
-      .catch((err) => {
+    // Transform API data to match frontend format  
+    const fetchSongs = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/homeWorkSpace");
+        const transformedSongs = res.data.slice(0, 5).map(song => ({
+          id: song.songId,
+          title: song.title,
+          artist: song.artistName,
+          cover: song.cover ? `http://localhost:8080/api/homeWorkSpace/cover/${song.cover}` : 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200&auto=format&fit=crop',
+          url: `http://localhost:8080/api/homeWorkSpace/stream/${song.songId}`,
+          duration: 180,
+          playCount: song.playCount || 0,
+          createdAt: song.createdAt,
+        }));
+        setSongs(transformedSongs);
+      } catch (err) {
         console.error("Lỗi khi fetch chart:", err);
-      });
+      }
+    };
+    
+    fetchSongs();
   }, []);
 
   return (
@@ -44,9 +56,11 @@ export default function Hero({ player }) {
           song={s}
           active={player.track?.id === s.id}
           onClick={() => {
+            console.log('🎯 Hero: Setting track:', s);
             player.setTrack(s);
-            player.setIsPlaying(true);
-            setTimeout(() => player.toggle(), 0);
+            if (!player.isPlaying) {
+              player.toggle();
+            }
           }}
         />
       ))}

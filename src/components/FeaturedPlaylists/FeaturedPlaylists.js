@@ -1,11 +1,8 @@
 import Section from "../Section/Section";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
-import { MOCK_PLAYLISTS,MOCK_SONGS } from "../../data/mockData";
+import { MOCK_PLAYLISTS } from "../../data/mockData";
 
-
-
-
-export default function FeaturedPlaylists({ player }) {
+export default function FeaturedPlaylists({ songs = [], player }) {
   return (
     <Section
       title="🎧 Playlist nổi bật"
@@ -17,7 +14,7 @@ export default function FeaturedPlaylists({ player }) {
             key={pl.id}
             item={pl}
             onPlay={() => {
-              const first = MOCK_SONGS.find((s) => s.id === pl.songs[0]);
+              const first = songs.find((s) => s.id === pl.songs[0]);
               if (first) {
                 player.setTrack(first);
                 player.setIsPlaying(true);
