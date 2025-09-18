@@ -20,17 +20,14 @@ export const songAPI = {
     }
   },
 
-  // Lấy URL stream cho bài hát
   getStreamUrl: (songId) => {
     return `${API_BASE_URL}/stream/${songId}`;
   },
 
-  // Lấy URL cover cho bài hát
   getCoverUrl: (coverFilename) => {
     return `${API_BASE_URL}/cover/${coverFilename}`;
   },
 
-  // Upload bài hát mới
   uploadSong: async (formData) => {
     try {
       const response = await api.post('/save', formData, {

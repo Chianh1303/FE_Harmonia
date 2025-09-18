@@ -46,23 +46,8 @@ export default function App() {
     return (
       <div className="app">
         <div className="loading">
-          <div>⚠️ Không thể kết nối tới server</div>
-          <div>Lỗi: {error}</div>
-          <div>Vui lòng:</div>
-          <div>1. Kiểm tra backend có chạy ở localhost:8080</div>
-          <div>2. Refresh trang này</div>
-        </div>
-      </div>
-    );
-  }
-
-  // If no songs, show empty state
-  if (!songs || songs.length === 0) {
-    return (
-      <div className="app">
-        <div className="loading">
-          <div>🎵 Chưa có bài hát nào</div>
-          <div>Hãy thêm bài hát vào database</div>
+          <div>Lỗi kết nối API: {error}</div>
+          <div>Vui lòng kiểm tra kết nối backend</div>
         </div>
       </div>
     );
