@@ -13,10 +13,9 @@ export const songAPI = {
   // Lấy tất cả bài hát
   getAllSongs: async () => {
     try {
-      const response = await api.get('/');
+      const response = await api.get('');
       return response.data;
     } catch (error) {
-      console.error('Error fetching songs:', error);
       throw error;
     }
   },
@@ -41,7 +40,6 @@ export const songAPI = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error uploading song:', error);
       throw error;
     }
   },

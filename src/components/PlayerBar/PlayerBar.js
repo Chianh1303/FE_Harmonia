@@ -20,21 +20,21 @@ export default function PlayerBar({ player }) {
   const [progress, setProgress] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
 
-  // 📝 Log khi track thay đổi
+  // Track change handler
   useEffect(() => {
     if (player.track) {
-      console.log("PlayerBar - Track changed:", player.track);
+      // Track changed
     }
   }, [player.track]);
 
-  // ⏱️ Cập nhật progress từ player, nhưng không khi đang kéo thanh
+  // Update progress from player, but not when dragging
   useEffect(() => {
     if (!isDragging) {
       setProgress(player.progress || 0);
     }
   }, [player.progress, isDragging]);
 
-  // 🚨 Nếu chưa có bài hát thì không hiển thị PlayerBar
+  // Don't show PlayerBar if no track
   if (!player.track) {
     return null;
   }

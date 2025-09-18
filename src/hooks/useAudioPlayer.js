@@ -27,22 +27,19 @@ export default function useAudioPlayer(initialTrack) {
     };
     
     const onLoadedMetadata = () => {
-      console.log('📊 Audio metadata loaded, duration:', audio.duration);
+      // Audio metadata loaded
     };
     
     const onError = (e) => {
-      console.error('❌ Audio playback error:', e);
       setIsPlaying(false);
     };
     
     const onPlay = () => {
       setIsPlaying(true);
-      console.log('▶️ Audio started playing');
     };
     
     const onPause = () => {
       setIsPlaying(false);
-      console.log('⏸️ Audio paused');
     };
     
     // Add multiple event listeners for better timeline tracking
@@ -67,36 +64,34 @@ export default function useAudioPlayer(initialTrack) {
     const audio = audioRef.current;
     if (!audio || !track) return;
     
-    console.log('🎼 Setting new track:', track);
-    
     // Support both 'url' and 'file' properties, prioritize 'url'
     const audioUrl = track.url || track.file || `http://localhost:8080/api/homeWorkSpace/stream/${track.id}`;
-    console.log('🔗 Audio URL:', audioUrl);
     
-    // Reset progress when changing tracks
-    setProgress(0);
-    setIsPlaying(false);
-    
-    audio.src = audioUrl;
-    audio.currentTime = 0;
+    // Only update if URL actually changed
+    if (audio.src !== audioUrl) {
+      // Reset progress when changing tracks
+      setProgress(0);
+      setIsPlaying(false);
+      
+      audio.src = audioUrl;
+      audio.currentTime = 0;
+    }
     
     // Add event handlers for better audio management
     const handleError = (e) => {
-      console.error('❌ Audio error:', e);
-      console.error('❌ Audio error details:', audio.error);
       setIsPlaying(false);
     };
     
     const handleCanPlay = () => {
-      console.log('✅ Audio can play');
+      // Audio can play
     };
     
     const handleLoadStart = () => {
-      console.log('🔄 Audio load start');
+      // Audio load start
     };
     
     const handleLoadedData = () => {
-      console.log('📊 Audio data loaded');
+      // Audio data loaded
     };
     
     audio.addEventListener('error', handleError);
@@ -117,40 +112,26 @@ export default function useAudioPlayer(initialTrack) {
   const toggle = () => {
     const audio = audioRef.current;
     if (!audio || !track) {
-      console.warn('⚠️ No audio or track available');
       return;
     }
-    
-    console.log('🎮 Toggle called. Current state:', { 
-      isPlaying, 
-      currentTime: audio.currentTime, 
-      src: audio.src,
-      readyState: audio.readyState 
-    });
     
     if (isPlaying) {
       audio.pause();
       setIsPlaying(false);
-      console.log('⏸️ Audio paused');
     } else {
       // Ensure audio is ready before playing
       if (audio.readyState >= 2) { // HAVE_CURRENT_DATA
         audio.play().then(() => {
           setIsPlaying(true);
-          console.log('▶️ Audio playing');
         }).catch((err) => {
-          console.error('❌ Play failed:', err);
           setIsPlaying(false);
         });
       } else {
         // Wait for audio to be ready
-        console.log('⏳ Waiting for audio to be ready...');
         const handleCanPlay = () => {
           audio.play().then(() => {
             setIsPlaying(true);
-            console.log('▶️ Audio playing (after wait)');
           }).catch((err) => {
-            console.error('❌ Play failed after wait:', err);
             setIsPlaying(false);
           });
           audio.removeEventListener('canplay', handleCanPlay);
@@ -169,8 +150,6 @@ export default function useAudioPlayer(initialTrack) {
 
   // Auto-play method for when tracks are selected
   const playTrack = (newTrack) => {
-    console.log('🎯 playTrack called with:', newTrack);
-    
     setTrack(newTrack);
     setIsPlaying(false); // Reset playing state
     
@@ -178,14 +157,11 @@ export default function useAudioPlayer(initialTrack) {
     setTimeout(() => {
       const audio = audioRef.current;
       if (audio && newTrack) {
-        console.log('🎵 Force starting playback for track:', newTrack.title);
         // Directly call play instead of toggle to ensure it plays
         if (audio.readyState >= 2) { // HAVE_CURRENT_DATA
           audio.play().then(() => {
             setIsPlaying(true);
-            console.log('▶️ Audio playing successfully');
           }).catch((err) => {
-            console.error('❌ Play failed:', err);
             setIsPlaying(false);
           });
         } else {
@@ -193,9 +169,7 @@ export default function useAudioPlayer(initialTrack) {
           const handleCanPlay = () => {
             audio.play().then(() => {
               setIsPlaying(true);
-              console.log('▶️ Audio playing after ready');
             }).catch((err) => {
-              console.error('❌ Play failed after ready:', err);
               setIsPlaying(false);
             });
             audio.removeEventListener('canplay', handleCanPlay);

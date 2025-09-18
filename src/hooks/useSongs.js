@@ -9,9 +9,7 @@ export const useSongs = () => {
   const fetchSongs = async () => {
     try {
       setLoading(true);
-      console.log('🎵 Fetching songs from API...');
       const songsData = await songAPI.getAllSongs();
-      console.log('📦 Raw API response:', songsData);
       
       // Transform API data to match frontend format
       const transformedSongs = songsData.map(song => {
@@ -25,15 +23,12 @@ export const useSongs = () => {
           playCount: song.playCount || 0,
           createdAt: song.createdAt,
         };
-        console.log('🎧 Transformed song:', transformed);
         return transformed;
       });
       
-      console.log('✅ All transformed songs:', transformedSongs);
       setSongs(transformedSongs);
       setError(null);
     } catch (err) {
-      console.error('❌ Failed to fetch songs:', err);
       setError(err.message);
       // Fallback to empty array if API fails
       setSongs([]);

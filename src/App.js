@@ -2,7 +2,6 @@
 import React, { useMemo, useState } from "react";
 import "./index.css";
 
-import { MOCK_SONGS } from "./data/mockData";
 import useAudioPlayer from "./hooks/useAudioPlayer";
 import { useSongs } from "./hooks/useSongs";
 
@@ -20,8 +19,8 @@ export default function App() {
   const player = useAudioPlayer(); // hook quản lý player
   const [query, setQuery] = useState("");
 
-  // Use API songs if available, fallback to mock data
-  const songs = apiSongs.length > 0 ? apiSongs : MOCK_SONGS;
+  // Only use API songs, no fallback to mock data
+  const songs = apiSongs;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -44,7 +43,29 @@ export default function App() {
   }
 
   if (error) {
-    console.warn('API Error, using mock data:', error);
+    return (
+      <div className="app">
+        <div className="loading">
+          <div>⚠️ Không thể kết nối tới server</div>
+          <div>Lỗi: {error}</div>
+          <div>Vui lòng:</div>
+          <div>1. Kiểm tra backend có chạy ở localhost:8080</div>
+          <div>2. Refresh trang này</div>
+        </div>
+      </div>
+    );
+  }
+
+  // If no songs, show empty state
+  if (!songs || songs.length === 0) {
+    return (
+      <div className="app">
+        <div className="loading">
+          <div>🎵 Chưa có bài hát nào</div>
+          <div>Hãy thêm bài hát vào database</div>
+        </div>
+      </div>
+    );
   }
 
   return (

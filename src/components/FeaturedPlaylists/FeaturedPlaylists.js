@@ -1,15 +1,33 @@
 import Section from "../Section/Section";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
-import { MOCK_PLAYLISTS } from "../../data/mockData";
 
 export default function FeaturedPlaylists({ songs = [], player }) {
+  // Create playlists from actual songs
+  const playlists = songs.length > 0 ? [
+    {
+      id: 1,
+      name: "Top Hits",
+      cover: songs[0]?.cover,
+      songs: songs.slice(0, 3).map(s => s.id)
+    },
+    {
+      id: 2,
+      name: "Latest Songs", 
+      cover: songs[1]?.cover,
+      songs: songs.slice(-3).map(s => s.id)
+    }
+  ] : [];
+
+  if (songs.length === 0) {
+    return null; // Don't show section if no songs
+  }
   return (
     <Section
       title="🎧 Playlist nổi bật"
       right={<a className="see-all">Xem tất cả</a>}
     >
       <div className="grid">
-        {MOCK_PLAYLISTS.slice(0, 5).map((pl) => (
+        {playlists.map((pl) => (
           <PlaylistCard
             key={pl.id}
             item={pl}

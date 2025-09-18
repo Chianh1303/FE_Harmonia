@@ -1,34 +1,10 @@
 // src/components/Hero.js
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import SongRow from "../SongRow/SongRow";
 
-export default function Hero({ player }) {
-  const [songs, setSongs] = useState([]);
-
-  useEffect(() => {
-    // Transform API data to match frontend format  
-    const fetchSongs = async () => {
-      try {
-        const res = await axios.get("http://localhost:8080/api/homeWorkSpace");
-        const transformedSongs = res.data.slice(0, 5).map(song => ({
-          id: song.songId,
-          title: song.title,
-          artist: song.artistName,
-          cover: song.cover ? `http://localhost:8080/api/homeWorkSpace/cover/${song.cover}` : 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200&auto=format&fit=crop',
-          url: `http://localhost:8080/api/homeWorkSpace/stream/${song.songId}`,
-          duration: 180,
-          playCount: song.playCount || 0,
-          createdAt: song.createdAt,
-        }));
-        setSongs(transformedSongs);
-      } catch (err) {
-        console.error("Lỗi khi fetch chart:", err);
-      }
-    };
-    
-    fetchSongs();
-  }, []);
+export default function Hero({ player, songs = [] }) {
+  // Use the first 5 songs from props
+  const heroSongs = songs.slice(0, 5);
 
   return (
     <div className="hero">
@@ -47,15 +23,14 @@ export default function Hero({ player }) {
         </div>
       </div>
 
-      {songs.map((s, i) => (
+      {heroSongs.map((s, i) => (
         <SongRow
           key={`${s.id || "song"}-${i}`}  
           index={i + 1}
           song={s}
           active={player.track?.id === s.id}
           onClick={() => {
-            console.log('🎯 Hero: Playing track:', s);
-            // Sử dụng playTrack để phát nhạc trực tiếp
+            // Use playTrack to start playing immediately
             player.playTrack(s);
           }}
         />
