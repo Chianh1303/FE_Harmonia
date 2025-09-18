@@ -25,9 +25,13 @@ export default function NewReleases({ songs = [], player }) {
             </div>
             <button
               onClick={() => {
-                player.setTrack(s);      // truyền bài hát vào player
-                player.setIsPlaying(true); // bật nhạc
-                setTimeout(() => player.toggle(), 0);
+                if (player.playTrack) {
+                  player.playTrack(s);
+                } else {
+                  player.setTrack(s);      // truyền bài hát vào player
+                  player.setIsPlaying(true); // bật nhạc
+                  setTimeout(() => player.toggle(), 0);
+                }
               }}
               className="release-btn"
             >

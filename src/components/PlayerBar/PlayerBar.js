@@ -18,6 +18,7 @@ import {
 
 export default function PlayerBar({ player }) {
   const [progress, setProgress] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   // 📝 Log khi track thay đổi
   useEffect(() => {
@@ -26,10 +27,12 @@ export default function PlayerBar({ player }) {
     }
   }, [player.track]);
 
-  // ⏱️ Cập nhật progress từ player
+  // ⏱️ Cập nhật progress từ player, nhưng không khi đang kéo thanh
   useEffect(() => {
-    setProgress(player.progress || 0);
-  }, [player.progress]);
+    if (!isDragging) {
+      setProgress(player.progress || 0);
+    }
+  }, [player.progress, isDragging]);
 
   // 🚨 Nếu chưa có bài hát thì không hiển thị PlayerBar
   if (!player.track) {
@@ -95,9 +98,15 @@ export default function PlayerBar({ player }) {
                 min={0}
                 max={player.track?.duration || 0}
                 value={progress}
+                onMouseDown={() => setIsDragging(true)}
                 onChange={(e) => {
                   const value = Number(e.target.value);
+                  setProgress(value);
+                }}
+                onMouseUp={(e) => {
+                  const value = Number(e.target.value);
                   player.seek(value);
+                  setIsDragging(false);
                 }}
               />
             </div>

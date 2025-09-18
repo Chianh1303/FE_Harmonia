@@ -76,9 +76,16 @@ export default function ZingChart({ songs = [], player }) {
       const actualSong = songs.find(s => s.title.includes(track.title.split(' ')[0])) || songs[0];
       if (actualSong) {
         console.log('🎯 ZingChart: Setting track:', actualSong);
-        player.setTrack(actualSong);
-        if (!player.isPlaying) {
-          player.toggle();
+        // Use playTrack method if available, otherwise fallback to setTrack + toggle
+        if (player.playTrack) {
+          player.playTrack(actualSong);
+        } else {
+          player.setTrack(actualSong);
+          setTimeout(() => {
+            if (!player.isPlaying) {
+              player.toggle();
+            }
+          }, 100);
         }
       }
     }
@@ -99,7 +106,11 @@ export default function ZingChart({ songs = [], player }) {
         {/* Left side - Song list */}
         <div className="chart-songs">
           {CHART_DATA.map((song, index) => (
-            <div key={song.id} className="chart-song-item" onClick={() => playTrack(song)}>
+            <div 
+              key={song.id} 
+              className={`chart-song-item ${player.track?.title === song.title ? 'active' : ''}`} 
+              onClick={() => playTrack(song)}
+            >
               <div className="song-rank">
                 <span className={`rank-number rank-${index + 1}`}>{index + 1}</span>
               </div>

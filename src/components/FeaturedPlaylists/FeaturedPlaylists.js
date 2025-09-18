@@ -16,9 +16,13 @@ export default function FeaturedPlaylists({ songs = [], player }) {
             onPlay={() => {
               const first = songs.find((s) => s.id === pl.songs[0]);
               if (first) {
-                player.setTrack(first);
-                player.setIsPlaying(true);
-                setTimeout(() => player.toggle(), 0);
+                if (player.playTrack) {
+                  player.playTrack(first);
+                } else {
+                  player.setTrack(first);
+                  player.setIsPlaying(true);
+                  setTimeout(() => player.toggle(), 0);
+                }
               }
             }}
           />

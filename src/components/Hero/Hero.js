@@ -32,7 +32,6 @@ export default function Hero({ player }) {
 
   return (
     <div className="hero">
-      {/* Banner */}
       <div className="hero-banner">
         <div className="hero-banner-inner">
           <img
@@ -48,19 +47,16 @@ export default function Hero({ player }) {
         </div>
       </div>
 
-      {/* Chart */}
       {songs.map((s, i) => (
         <SongRow
-          key={`${s.id || "song"}-${i}`}  // đảm bảo key luôn unique
+          key={`${s.id || "song"}-${i}`}  
           index={i + 1}
           song={s}
           active={player.track?.id === s.id}
           onClick={() => {
-            console.log('🎯 Hero: Setting track:', s);
-            player.setTrack(s);
-            if (!player.isPlaying) {
-              player.toggle();
-            }
+            console.log('🎯 Hero: Playing track:', s);
+            // Sử dụng playTrack để phát nhạc trực tiếp
+            player.playTrack(s);
           }}
         />
       ))}

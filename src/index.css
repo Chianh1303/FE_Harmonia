@@ -403,7 +403,7 @@ body::before {
 /* Song Row ZingMP3 Style */
 .song-row {
   display: grid;
-  grid-template-columns: 24px 40px 1fr auto auto;
+  grid-template-columns: 40px 1fr auto auto;
   align-items: center;
   gap: 12px;
   width: 100%;
@@ -591,6 +591,46 @@ body::before {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+/* Ensure proper text spacing for chart items in hero */
+.chart-box .song-row {
+  display: grid;
+  grid-template-columns: 36px 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chart-box .song-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.chart-box .song-cover {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.chart-box .song-info {
+  overflow: hidden;
+}
+
+.chart-box .song-info .title {
+  font-size: 12px;
+  margin-bottom: 1px;
+}
+
+.chart-box .song-info .artist {
+  font-size: 10px;
 }
 
 /* Sections ZingMP3 Style */
@@ -1080,10 +1120,11 @@ body::before {
 .chart-content {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   gap: 40px;
   align-items: start;
+  min-height: 300px;
+  width: 100%;
 }
 
 /* Song List Styles */
@@ -1091,18 +1132,25 @@ body::before {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 50%;
+  flex: 1;
 }
 
 .chart-song-item {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 12px;
+  padding: 16px 20px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.05);
   transition: all 0.3s ease;
   cursor: pointer;
   border: 1px solid transparent;
+  min-height: 84px;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  margin-bottom: 8px;
 }
 
 .chart-song-item:hover {
@@ -1111,19 +1159,30 @@ body::before {
   transform: translateY(-2px);
 }
 
+.chart-song-item.active {
+  background: rgba(153, 69, 255, 0.2);
+  border-color: rgba(153, 69, 255, 0.5);
+}
+
 .song-rank {
   width: 32px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 4px;
 }
 
 .rank-number {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
   background: linear-gradient(135deg, #9945ff, #3b82f6);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: block;
+  text-align: center;
+  line-height: 1;
 }
 
 .rank-number.rank-1 {
@@ -1152,10 +1211,13 @@ body::before {
 
 .song-cover {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   border-radius: 8px;
   overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  margin-right: 4px;
 }
 
 .song-cover img {
@@ -1186,31 +1248,43 @@ body::before {
 .song-info {
   flex: 1;
   min-width: 0;
+  padding-left: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .song-title {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  margin: 0 0 4px 0;
+  margin: 0 0 2px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.3;
+  max-width: 100%;
 }
 
 .song-artist {
   color: #94a3b8;
-  font-size: 12px;
+  font-size: 11px;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.3;
+  max-width: 100%;
 }
 
 .song-percentage {
   color: #9945ff;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
+  flex-shrink: 0;
+  min-width: 35px;
+  text-align: right;
 }
 
 .view-more {
@@ -1239,6 +1313,10 @@ body::before {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-height: 200px;
+  justify-content: space-between;
+  width: 50%;
+  flex: 1;
 }
 
 .chart-current-song {
@@ -1318,21 +1396,57 @@ body::before {
 /* Responsive */
 @media (max-width: 768px) {
   .chart-content {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: 24px;
   }
   
+  .chart-songs {
+    width: 100%;
+  }
+  
+  .chart-visualization {
+    width: 100%;
+    order: -1; /* Show chart above songs on mobile */
+  }
+  
   .chart-song-item {
-    gap: 12px;
+    gap: 10px;
+    padding: 10px 12px;
+    min-height: 64px;
   }
   
   .song-cover {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
+  }
+  
+  .song-rank {
+    width: 20px;
+  }
+  
+  .rank-number {
+    font-size: 14px;
   }
   
   .chart-title {
     font-size: 24px;
+  }
+  
+  .zing-chart {
+    padding: 16px;
+  }
+  
+  .song-title {
+    font-size: 12px;
+  }
+  
+  .song-artist {
+    font-size: 10px;
+  }
+  
+  .song-percentage {
+    font-size: 12px;
+    min-width: 30px;
   }
 }
 
