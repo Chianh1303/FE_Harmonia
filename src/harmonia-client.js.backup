@@ -259,9 +259,13 @@ export default function App() {
                     song={s}
                     active={player.track?.id === s.id}
                     onClick={() => {
-                      player.setTrack(s);
-                      player.setIsPlaying(true);
-                      setTimeout(() => player.toggle(), 0); // start
+                      if (player.playTrack) {
+                        player.playTrack(s);
+                      } else {
+                        player.setTrack(s);
+                        player.setIsPlaying(true);
+                        setTimeout(() => player.toggle(), 0);
+                      }
                     }}
                   />
                 ))}
@@ -281,9 +285,13 @@ export default function App() {
                   </div>
                   <button
                     onClick={() => {
-                      player.setTrack(s);
-                      player.setIsPlaying(true);
-                      setTimeout(() => player.toggle(), 0);
+                      if (player.playTrack) {
+                        player.playTrack(s);
+                      } else {
+                        player.setTrack(s);
+                        player.setIsPlaying(true);
+                        setTimeout(() => player.toggle(), 0);
+                      }
                     }}
                     className="absolute right-3 bottom-16 opacity-0 group-hover:opacity-100 transition rounded-full h-10 w-10 grid place-items-center bg-fuchsia-500 hover:bg-fuchsia-600 shadow-lg"
                     aria-label="Play"
@@ -305,9 +313,13 @@ export default function App() {
                   onPlay={() => {
                     const first = MOCK_SONGS.find((s) => s.id === pl.songs[0]);
                     if (first) {
-                      player.setTrack(first);
-                      player.setIsPlaying(true);
-                      setTimeout(() => player.toggle(), 0);
+                      if (player.playTrack) {
+                        player.playTrack(first);
+                      } else {
+                        player.setTrack(first);
+                        player.setIsPlaying(true);
+                        setTimeout(() => player.toggle(), 0);
+                      }
                     }
                   }}
                 />)

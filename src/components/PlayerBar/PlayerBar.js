@@ -17,66 +17,46 @@ import {
 } from "react-icons/fa";
 
 export default function PlayerBar({ player }) {
-  const audioRef = useRef(null);
   const [progress, setProgress] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
-  // ⏯️ Đồng bộ play/pause
-  useEffect(() => {
-    if (!audioRef.current) return;
-    if (player.isPlaying) {
-      audioRef.current.play();
-    } else {
-      audioRef.current.pause();
-    }
-  }, [player.isPlaying, player.track]);
-
-  // 🎶 Đồng bộ volume
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = player.volume;
-    }
-  }, [player.volume]);
-
-  // 📝 Log khi track thay đổi
+  // Track change handler
   useEffect(() => {
     if (player.track) {
-      console.log("Track ID:", player.track.id);
+      // Track changed
     }
   }, [player.track]);
 
-  // ⏱️ Cập nhật progress khi chạy nhạc
-  const onTimeUpdate = () => {
-    if (audioRef.current) {
-      setProgress(audioRef.current.currentTime);
-      player.setProgress(audioRef.current.currentTime);
+  // Update progress from player, but not when dragging
+  useEffect(() => {
+    if (!isDragging) {
+      setProgress(player.progress || 0);
     }
-  };
+  }, [player.progress, isDragging]);
 
-  // 🚨 Nếu chưa có bài hát thì không hiển thị PlayerBar
+  // Don't show PlayerBar if no track
   if (!player.track) {
     return null;
   }
 
   return (
     <footer className="player" id="main-player">
-      <audio ref={audioRef} onTimeUpdate={onTimeUpdate}>
-        <source
-          src={`http://localhost:8080/api/songs/stream/${player.track.id}`}
-          type={player.track.contentType || "audio/mpeg"}
-        />
-        Trình duyệt không hỗ trợ audio.
-      </audio>
+      {/* Audio element được quản lý bởi useAudioPlayer hook */}
+      <audio ref={player.audioRef} />
 
       <div className="player-layout">
         <div className="now-playing">
           <img
-            src={`http://localhost:8080/api/stream/${player.track.id}`}
+            src={player.track.cover}
             className="track-img"
             alt={player.track.title}
+            onError={(e) => {
+              e.target.src = 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200&auto=format&fit=crop';
+            }}
           />
           <div className="track-info">
             <div className="title">{player.track.title}</div>
-            <div className="artist">{player.track.artistName}</div>
+            <div className="artist">{player.track.artist}</div>
           </div>
           <button className="heart-btn">
             <FaHeart />
@@ -118,13 +98,15 @@ export default function PlayerBar({ player }) {
                 min={0}
                 max={player.track?.duration || 0}
                 value={progress}
+                onMouseDown={() => setIsDragging(true)}
                 onChange={(e) => {
                   const value = Number(e.target.value);
-                  if (audioRef.current) {
-                    audioRef.current.currentTime = value;
-                  }
                   setProgress(value);
-                  player.setProgress(value);
+                }}
+                onMouseUp={(e) => {
+                  const value = Number(e.target.value);
+                  player.seek(value);
+                  setIsDragging(false);
                 }}
               />
             </div>

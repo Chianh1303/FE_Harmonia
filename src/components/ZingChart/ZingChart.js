@@ -43,7 +43,7 @@ const HOURLY_DATA = [
   { hour: '12:00', value: 82 }
 ];
 
-export default function ZingChart({ player }) {
+export default function ZingChart({ songs = [], player }) {
   const maxValue = Math.max(...HOURLY_DATA.map(d => d.value));
   
   const generatePath = () => {
@@ -71,17 +71,23 @@ export default function ZingChart({ player }) {
   };
 
   const playTrack = (track) => {
-    if (player && player.play) {
-      // Convert chart item to track format
-      const trackData = {
-        id: track.id,
-        title: track.title,
-        artist: track.artist,
-        cover: track.cover,
-        duration: 180, // 3 minutes default
-        url: "#" // placeholder
-      };
-      player.play(trackData);
+    if (player && songs.length > 0) {
+      // Find actual song from API data or use first song
+      const actualSong = songs.find(s => s.title.includes(track.title.split(' ')[0])) || songs[0];
+      if (actualSong) {
+        console.log('🎯 ZingChart: Setting track:', actualSong);
+        // Use playTrack method if available, otherwise fallback to setTrack + toggle
+        if (player.playTrack) {
+          player.playTrack(actualSong);
+        } else {
+          player.setTrack(actualSong);
+          setTimeout(() => {
+            if (!player.isPlaying) {
+              player.toggle();
+            }
+          }, 100);
+        }
+      }
     }
   };
 
@@ -100,7 +106,11 @@ export default function ZingChart({ player }) {
         {/* Left side - Song list */}
         <div className="chart-songs">
           {CHART_DATA.map((song, index) => (
-            <div key={song.id} className="chart-song-item" onClick={() => playTrack(song)}>
+            <div 
+              key={song.id} 
+              className={`chart-song-item ${player.track?.title === song.title ? 'active' : ''}`}
+              onClick={() => playTrack(song)}
+            >
               <div className="song-rank">
                 <span className={`rank-number rank-${index + 1}`}>{index + 1}</span>
               </div>

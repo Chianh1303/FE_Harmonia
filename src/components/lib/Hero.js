@@ -30,9 +30,13 @@ export default function Hero({ songs, player }) {
               song={s}
               active={player.track?.id === s.id}
               onClick={() => {
-                player.setTrack(s);
-                player.setIsPlaying(true);
-                setTimeout(() => player.toggle(), 0);
+                if (player.playTrack) {
+                  player.playTrack(s);
+                } else {
+                  player.setTrack(s);
+                  player.setIsPlaying(true);
+                  setTimeout(() => player.toggle(), 0);
+                }
               }}
             />
           ))}

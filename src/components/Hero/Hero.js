@@ -1,26 +1,13 @@
 // src/components/Hero.js
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import SongRow from "../SongRow/SongRow";
 
-export default function Hero({ player }) {
-  const [songs, setSongs] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/homeWorkSpace")
-      .then((res) => {
-        // Lấy 5 bài đầu tiên để hiển thị chart
-        setSongs(res.data.slice(0, 5));
-      })
-      .catch((err) => {
-        console.error("Lỗi khi fetch chart:", err);
-      });
-  }, []);
+export default function Hero({ player, songs = [] }) {
+  // Use the first 5 songs from props
+  const heroSongs = songs.slice(0, 5);
 
   return (
     <div className="hero">
-      {/* Banner */}
       <div className="hero-banner">
         <div className="hero-banner-inner">
           <img
@@ -36,17 +23,15 @@ export default function Hero({ player }) {
         </div>
       </div>
 
-      {/* Chart */}
-      {songs.map((s, i) => (
+      {heroSongs.map((s, i) => (
         <SongRow
-          key={`${s.id || "song"}-${i}`}  // đảm bảo key luôn unique
+          key={`${s.id || "song"}-${i}`}  
           index={i + 1}
           song={s}
           active={player.track?.id === s.id}
           onClick={() => {
-            player.setTrack(s);
-            player.setIsPlaying(true);
-            setTimeout(() => player.toggle(), 0);
+            // Use playTrack to start playing immediately
+            player.playTrack(s);
           }}
         />
       ))}
