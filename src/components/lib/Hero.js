@@ -33,7 +33,7 @@ export default function Hero({ songs, player }) {
                 if (player.playTrack) {
                   player.playTrack(s);
                 } else {
-                  player.setTrack(s);
+                      player.setTrack(s);
                   player.setIsPlaying(true);
                   setTimeout(() => player.toggle(), 0);
                 }

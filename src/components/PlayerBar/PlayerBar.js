@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import "./PlayerBar.css";
 import {
   FaPlay,
   FaPause,
@@ -42,7 +43,17 @@ export default function PlayerBar({ player }) {
   return (
     <footer className="player" id="main-player">
       {/* Audio element được quản lý bởi useAudioPlayer hook */}
-      <audio ref={player.audioRef} />
+      <audio
+        ref={player.audioRef}
+        src={`http://localhost:8080/stream/${player.track.id}`}
+        onLoadedMetadata={(e) => {
+          player.setDuration(e.target.duration);
+        }}
+        onTimeUpdate={(e) => {
+          player.setProgress(e.target.currentTime);
+        }}
+      />
+
 
       <div className="player-layout">
         <div className="now-playing">
@@ -92,34 +103,30 @@ export default function PlayerBar({ player }) {
               {String(Math.floor(progress / 60)).padStart(2, "0")}:
               {String(Math.floor(progress % 60)).padStart(2, "0")}
             </span>
-            <div className="progress-bar">
-              <input
-                type="range"
-                min={0}
-                max={player.track?.duration || 0}
-                value={progress}
-                onMouseDown={() => setIsDragging(true)}
-                onChange={(e) => {
-                  const value = Number(e.target.value);
-                  setProgress(value);
-                }}
-                onMouseUp={(e) => {
-                  const value = Number(e.target.value);
-                  player.seek(value);
-                  setIsDragging(false);
-                }}
-              />
-            </div>
+            <input
+              type="range"
+              min={0}
+              max={player.duration}
+              value={progress}
+              onMouseDown={() => setIsDragging(true)}
+              onChange={(e) => setProgress(Number(e.target.value))}
+              onMouseUp={(e) => {
+                player.seek(Number(e.target.value));
+                setIsDragging(false);
+              }}
+              style={{
+                width: "100%",
+                height: "4px", // giảm độ cao
+                borderRadius: "2px",
+                appearance: "none", // bỏ style mặc định
+                background: `linear-gradient(to right, white ${(progress / player.duration) * 100}%, #444 ${(progress / player.duration) * 100}%)`,
+                cursor: "pointer"
+              }}
+            />
+
             <span className="total-time">
-              {String(Math.floor((player.track?.duration || 0) / 60)).padStart(
-                2,
-                "0"
-              )}
-              :
-              {String(Math.floor((player.track?.duration || 0) % 60)).padStart(
-                2,
-                "0"
-              )}
+              {String(Math.floor(player.duration / 60)).padStart(2, "0")}:
+              {String(Math.floor(player.duration % 60)).padStart(2, "0")}
             </span>
           </div>
         </div>

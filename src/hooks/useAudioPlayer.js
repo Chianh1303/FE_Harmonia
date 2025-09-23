@@ -6,6 +6,8 @@ export default function useAudioPlayer(initialTrack) {
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(0.9);
   const audioRef = useRef(null);
+  const [duration, setDuration] = useState(0);
+
 
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
@@ -14,34 +16,35 @@ export default function useAudioPlayer(initialTrack) {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    
+
     const onTime = () => {
       if (!audio.paused) {
         setProgress(audio.currentTime);
       }
     };
-    
+
     const onEnded = () => {
       setIsPlaying(false);
       setProgress(0);
     };
-    
+
     const onLoadedMetadata = () => {
-      // Audio metadata loaded
+      setDuration(audio.duration);
     };
-    
+
+
     const onError = (e) => {
       setIsPlaying(false);
     };
-    
+
     const onPlay = () => {
       setIsPlaying(true);
     };
-    
+
     const onPause = () => {
       setIsPlaying(false);
     };
-    
+
     // Add multiple event listeners for better timeline tracking
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("ended", onEnded);
@@ -49,7 +52,7 @@ export default function useAudioPlayer(initialTrack) {
     audio.addEventListener("error", onError);
     audio.addEventListener("play", onPlay);
     audio.addEventListener("pause", onPause);
-    
+
     return () => {
       audio.removeEventListener("timeupdate", onTime);
       audio.removeEventListener("ended", onEnded);
@@ -63,44 +66,44 @@ export default function useAudioPlayer(initialTrack) {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio || !track) return;
-    
+
     // Support both 'url' and 'file' properties, prioritize 'url'
     const audioUrl = track.url || track.file || `http://localhost:8080/api/homeWorkSpace/stream/${track.id}`;
-    
+
     // Only update if URL actually changed
     if (audio.src !== audioUrl) {
       // Reset progress when changing tracks
       setProgress(0);
       setIsPlaying(false);
-      
+
       audio.src = audioUrl;
       audio.currentTime = 0;
     }
-    
+
     // Add event handlers for better audio management
     const handleError = (e) => {
       setIsPlaying(false);
     };
-    
+
     const handleCanPlay = () => {
       // Audio can play
     };
-    
+
     const handleLoadStart = () => {
       // Audio load start
     };
-    
+
     const handleLoadedData = () => {
       // Audio data loaded
     };
-    
+
     audio.addEventListener('error', handleError);
     audio.addEventListener('canplay', handleCanPlay);
     audio.addEventListener('loadstart', handleLoadStart);
     audio.addEventListener('loadeddata', handleLoadedData);
-    
+
     // Auto-play logic moved to separate function call
-    
+
     return () => {
       audio.removeEventListener('error', handleError);
       audio.removeEventListener('canplay', handleCanPlay);
@@ -114,7 +117,7 @@ export default function useAudioPlayer(initialTrack) {
     if (!audio || !track) {
       return;
     }
-    
+
     if (isPlaying) {
       audio.pause();
       setIsPlaying(false);
@@ -152,7 +155,7 @@ export default function useAudioPlayer(initialTrack) {
   const playTrack = (newTrack) => {
     setTrack(newTrack);
     setIsPlaying(false); // Reset playing state
-    
+
     // Force play the new track
     setTimeout(() => {
       const audio = audioRef.current;
@@ -180,18 +183,20 @@ export default function useAudioPlayer(initialTrack) {
     }, 150);
   };
 
-  return { 
-    track, 
-    setTrack, 
-    isPlaying, 
-    setIsPlaying, 
-    progress, 
-    setProgress, 
-    volume, 
-    setVolume, 
-    toggle, 
-    seek, 
+  return {
+    track,
+    setTrack,
+    isPlaying,
+    setIsPlaying,
+    progress,
+    setProgress,
+    duration,
+    setDuration,
+    volume,
+    setVolume,
+    toggle,
+    seek,
     playTrack,
-    audioRef 
+    audioRef
   };
 }
