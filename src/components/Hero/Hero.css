@@ -1,0 +1,26 @@
+.hero {
+  display: grid;
+  grid-template-columns: 70% 30%; /* 70% cho banner, 30% cho songs */
+  gap: 20px;                      /* khoảng cách giữa 2 cột */
+  width: 100%;
+  min-height: 320px;              /* chiều cao tối thiểu */
+}
+
+.hero-banner {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.hero-banner-inner,
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-songs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

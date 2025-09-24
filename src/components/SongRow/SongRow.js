@@ -1,5 +1,6 @@
 import { FaHeart } from "react-icons/fa";
 
+
 function SongRow({ index, song, active, onClick }) {
   if (!song) return null;
 

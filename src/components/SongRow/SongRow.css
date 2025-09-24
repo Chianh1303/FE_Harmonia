@@ -1,0 +1,13 @@
+.song-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;        /* cố định chiều cao */
+  padding: 0 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.song-row + .song-row {
+  margin-top: 8px;
+}

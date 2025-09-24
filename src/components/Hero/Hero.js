@@ -1,9 +1,9 @@
 // src/components/Hero.js
 import React from "react";
 import SongRow from "../SongRow/SongRow";
+import "./Hero.css";
 
 export default function Hero({ player, songs = [] }) {
-  // Use the first 5 songs from props
   const heroSongs = songs.slice(0, 5);
 
   return (
@@ -23,19 +23,17 @@ export default function Hero({ player, songs = [] }) {
         </div>
       </div>
 
-      {heroSongs.map((s, i) => (
-        <SongRow
-          key={`${s.id || "song"}-${i}`}  
-          index={i + 1}
-          song={s}
-          active={player.track?.id === s.id}
-          onClick={() => {
-            // Use playTrack to start playing immediately
-            player.playTrack(s);
-          }}
-        />
-      ))}
-
+      <div className="hero-songs">
+        {heroSongs.map((s, i) => (
+          <SongRow
+            key={`${s.id || "song"}-${i}`}
+            index={i + 1}
+            song={s}
+            active={player.track?.id === s.id}
+            onClick={() => player.playTrack(s)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
