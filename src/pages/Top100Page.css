@@ -1,0 +1,136 @@
+.top100-page {
+  position: relative;
+  padding: 20px 40px;
+  color: #fff;
+  background-color: #121212;
+  min-height: calc(100vh - 64px); /* trừ phần header cố định */
+  margin-left: 240px; /* bù phần sidebar */
+  margin-top: 64px; /* bù phần header */
+  box-sizing: border-box;
+  width: calc(100% - 240px); /* chiếm toàn bộ phần còn lại của màn hình */
+  overflow-x: hidden;
+}
+
+/* --- Banner --- */
+.top100-banner {
+  position: relative;
+  background-image: url("https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?q=80&w=1200");
+  background-size: cover;
+  background-position: center;
+  height: 320px; /* tăng chiều cao banner cho nổi bật */
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 40px;
+  width: 100%; /* full chiều rộng trong container */
+}
+
+.banner-overlay {
+  background: rgba(0, 0, 0, 0.55);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.banner-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.banner-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.85;
+  margin-bottom: 18px;
+}
+
+.play-all-btn {
+  background: linear-gradient(90deg, #ff416c, #ff4b2b);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* --- Biểu đồ --- */
+.chart-section {
+  margin: 25px 0;
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+}
+
+/* --- Danh sách bài hát --- */
+.top100-list h2 {
+  margin: 25px 0 12px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.song-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.song-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  background: #181818;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  transition: background 0.25s;
+}
+
+.song-item:hover {
+  background: #242424;
+}
+
+.rank {
+  width: 40px;
+  text-align: center;
+  font-weight: bold;
+  color: #ff4b2b;
+  font-size: 1.1rem;
+}
+
+.song-cover {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  margin-right: 16px;
+  object-fit: cover;
+}
+
+.song-info {
+  flex: 1;
+}
+
+.song-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.song-artist {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.play-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+}

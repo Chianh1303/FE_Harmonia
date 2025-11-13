@@ -1,0 +1,104 @@
+/* Header tổng thể */
+.header {
+  position: fixed;
+  top: 0;
+  left: 240px; /* Căn theo chiều rộng sidebar */
+  right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #181818;
+  padding: 0 24px;
+  z-index: 500; /* Tăng z-index để header luôn trên cùng */
+}
+
+/* Nội dung chính */
+.main-content {
+  margin-left: 240px;
+  margin-top: 64px;
+  padding: 16px;
+}
+
+/* Phần header bên phải */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 400;
+}
+
+/* User & Avatar */
+.user {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+
+.avatar:hover {
+  border-color: #a855f7;
+  transform: scale(1.05);
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  top: 52px; /* Cách avatar vừa phải, không bị dính */
+  right: 0;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  padding: 8px 0;
+  width: 180px;
+  z-index: 1000; /* Đặt cao để không bị che */
+  animation: fadeIn 0.2s ease-out;
+}
+
+.dropdown-item {
+  padding: 10px 16px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background-color: #3b3b3b;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Các nút nâng cấp, download, settings */
+.upgrade-btn,
+.download-btn,
+.settings-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.upgrade-btn:hover,
+.download-btn:hover,
+.settings-btn:hover {
+  background: rgba(168, 85, 247, 0.2);
+}

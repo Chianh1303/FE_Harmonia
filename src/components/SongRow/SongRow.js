@@ -1,6 +1,5 @@
 import { FaHeart } from "react-icons/fa";
 
-
 function SongRow({ index, song, active, onClick }) {
   if (!song) return null;
 
@@ -14,13 +13,14 @@ function SongRow({ index, song, active, onClick }) {
 
       <div className="song-info">
         <div className="title">{song.title}</div>
-        <div className="artist">{song.artistName || "Unknown Artist"}</div>
+        <div className="artist">{song.artist || "Unknown Artist"}</div>
       </div>
 
       <div className="song-duration">
-        {Math.floor(song.duration / 60)}:
+        {String(Math.floor(song.duration / 60)).padStart(2, "0")}:
         {String(Math.floor(song.duration % 60)).padStart(2, "0")}
       </div>
+
 
       <div className="song-heart">
         <FaHeart />

@@ -1,33 +1,6 @@
 import React from 'react';
 import { FaPlay } from 'react-icons/fa';
 
-const CHART_DATA = [
-  {
-    id: 1,
-    title: "Anh Đã Không Biết Cách Yêu Em",
-    artist: "Quang Đăng Trần",
-    percentage: 50,
-    cover: "https://i.pravatar.cc/60?img=1",
-    trend: "up"
-  },
-  {
-    id: 2,
-    title: "Nơi Đau Giữa Hoa Bình",
-    artist: "Hòa Minzy ♪, Nguyễn Văn Chung",
-    percentage: 20,
-    cover: "https://i.pravatar.cc/60?img=2",
-    trend: "stable"
-  },
-  {
-    id: 3,
-    title: "Có Con Yêu Em (Cover)",
-    artist: "Quang Đăng Trần",
-    percentage: 30,
-    cover: "https://i.pravatar.cc/60?img=3",
-    trend: "down"
-  }
-];
-
 const HOURLY_DATA = [
   { hour: '14:00', value: 65 },
   { hour: '16:00', value: 72 },
@@ -44,50 +17,27 @@ const HOURLY_DATA = [
 ];
 
 export default function ZingChart({ songs = [], player }) {
+  const topSongs = songs.slice(0, 10); // top 10 bài hát
   const maxValue = Math.max(...HOURLY_DATA.map(d => d.value));
-  
+
   const generatePath = () => {
     const width = 400;
     const height = 120;
     const padding = 20;
-    
     const xStep = (width - padding * 2) / (HOURLY_DATA.length - 1);
     const yScale = (height - padding * 2) / maxValue;
-    
     let path = '';
-    
     HOURLY_DATA.forEach((point, index) => {
       const x = padding + index * xStep;
       const y = height - padding - (point.value * yScale);
-      
-      if (index === 0) {
-        path += `M ${x} ${y}`;
-      } else {
-        path += ` L ${x} ${y}`;
-      }
+      path += index === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`;
     });
-    
     return path;
   };
 
   const playTrack = (track) => {
-    if (player && songs.length > 0) {
-      // Find actual song from API data or use first song
-      const actualSong = songs.find(s => s.title.includes(track.title.split(' ')[0])) || songs[0];
-      if (actualSong) {
-        console.log('🎯 ZingChart: Setting track:', actualSong);
-        // Use playTrack method if available, otherwise fallback to setTrack + toggle
-        if (player.playTrack) {
-          player.playTrack(actualSong);
-        } else {
-          player.setTrack(actualSong);
-          setTimeout(() => {
-            if (!player.isPlaying) {
-              player.toggle();
-            }
-          }, 100);
-        }
-      }
+    if (player && track) {
+      player.playTrack(track); // dùng playTrack từ hook
     }
   };
 
@@ -96,26 +46,29 @@ export default function ZingChart({ songs = [], player }) {
       <div className="chart-header">
         <h2 className="chart-title">
           <span className="hash">#</span>zingchart
-          <button className="play-chart-btn">
+          <button
+            className="play-chart-btn"
+            onClick={() => topSongs[0] && playTrack(topSongs[0])}
+          >
             <FaPlay />
           </button>
         </h2>
       </div>
-      
+
       <div className="chart-content">
         {/* Left side - Song list */}
         <div className="chart-songs">
-          {CHART_DATA.map((song, index) => (
-            <div 
-              key={song.id} 
-              className={`chart-song-item ${player.track?.title === song.title ? 'active' : ''}`}
+          {topSongs.map((song, index) => (
+            <div
+              key={song.id}
+              className={`chart-song-item ${player.track?.id === song.id ? 'active' : ''}`}
               onClick={() => playTrack(song)}
             >
               <div className="song-rank">
                 <span className={`rank-number rank-${index + 1}`}>{index + 1}</span>
               </div>
               <div className="song-cover">
-                <img src={song.cover} alt={song.title} />
+                <img src={song.cover || 'https://i.pravatar.cc/60'} alt={song.title} />
                 <div className="play-overlay">
                   <FaPlay />
                 </div>
@@ -124,72 +77,42 @@ export default function ZingChart({ songs = [], player }) {
                 <h4 className="song-title">{song.title}</h4>
                 <p className="song-artist">{song.artist}</p>
               </div>
-              <div className="song-percentage">
-                <span>{song.percentage}%</span>
-              </div>
             </div>
           ))}
-          
-          <div className="view-more">
-            <button className="view-more-btn">Xem thêm</button>
-          </div>
         </div>
-        
+
         {/* Right side - Chart visualization */}
         <div className="chart-visualization">
           <div className="chart-current-song">
-            <div className="current-song-info">
-              <img src={CHART_DATA[2].cover} alt="Current" />
-              <div>
-                <span className="current-title">{CHART_DATA[2].title}</span>
-                <span className="current-percentage">{CHART_DATA[2].percentage}%</span>
+            {player.track && (
+              <div className="current-song-info">
+                <img src={player.track.cover || 'https://i.pravatar.cc/60'} alt={player.track.title} />
+                <div>
+                  <span className="current-title">{player.track.title}</span>
+                  <span className="current-artist">{player.track.artist}</span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
-          
+
           <div className="chart-graph">
             <svg viewBox="0 0 400 120" className="trend-chart">
-              {/* Grid lines */}
               <defs>
                 <linearGradient id="chartGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#9945ff" />
                   <stop offset="100%" stopColor="#3b82f6" />
                 </linearGradient>
               </defs>
-              
-              {/* Chart line */}
-              <path
-                d={generatePath()}
-                stroke="url(#chartGradient)"
-                strokeWidth="2"
-                fill="none"
-                className="chart-line"
-              />
-              
-              {/* Data points */}
+              <path d={generatePath()} stroke="url(#chartGradient)" strokeWidth="2" fill="none" />
               {HOURLY_DATA.map((point, index) => {
                 const x = 20 + index * ((400 - 40) / (HOURLY_DATA.length - 1));
                 const y = 120 - 20 - (point.value * ((120 - 40) / maxValue));
-                
-                return (
-                  <circle
-                    key={index}
-                    cx={x}
-                    cy={y}
-                    r="3"
-                    fill="#9945ff"
-                    className="chart-point"
-                  />
-                );
+                return <circle key={index} cx={x} cy={y} r="3" fill="#9945ff" />;
               })}
             </svg>
-            
-            {/* Time labels */}
             <div className="time-labels">
               {HOURLY_DATA.map((point, index) => (
-                <span key={index} className="time-label">
-                  {point.hour}
-                </span>
+                <span key={index} className="time-label">{point.hour}</span>
               ))}
             </div>
           </div>

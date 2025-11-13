@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { 
   FaBookmark, 
   FaCompass, 
@@ -9,35 +10,65 @@ import {
   FaPlus 
 } from "react-icons/fa";
 
+import "./Sidebar.css";
+
 export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="logo">🎵 Harmonia</div>
 
       <nav className="nav">
-        <a href="#" className="nav-link active">
+        <NavLink 
+          to="/" 
+          className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+          end
+        >
           <FaBookmark className="icon" /> Thư Viện
-        </a>
-        <a href="#" className="nav-link">
+        </NavLink>
+
+        <NavLink 
+          to="/explore" 
+          className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+        >
           <FaCompass className="icon" /> Khám Phá
-        </a>
-        <a href="#" className="nav-link">
+        </NavLink>
+
+        <NavLink 
+          to="/chart" 
+          className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+        >
           <FaChartLine className="icon" /> #zingchart
-        </a>
-        <a href="#" className="nav-link live">
+        </NavLink>
+
+        <NavLink 
+          to="/live" 
+          className={({ isActive }) => isActive ? "nav-link active live" : "nav-link live"}
+        >
           <FaBroadcastTower className="icon" /> 
           <span>Phòng Nhạc</span>
           <span className="live-badge">LIVE</span>
-        </a>
-        <a href="#" className="nav-link">
+        </NavLink>
+
+        <NavLink 
+          to="/new" 
+          className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+        >
           <FaPlayCircle className="icon" /> BXH Nhạc Mới
-        </a>
-        <a href="#" className="nav-link">
+        </NavLink>
+
+        <NavLink 
+          to="/genres" 
+          className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+        >
           <FaMusic className="icon" /> Chủ Đề & Thể Loại
-        </a>
-        <a href="#" className="nav-link">
+        </NavLink>
+
+        <NavLink 
+          to="/top100" 
+          className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+        >
           <FaListOl className="icon" /> Top 100
-        </a>
+        </NavLink>
       </nav>
 
       <div className="login-section">
@@ -48,9 +79,9 @@ export default function Sidebar() {
       </div>
 
       <div className="create-playlist">
-        <a href="#" className="nav-link">
+        <NavLink to="/create-playlist" className="nav-link">
           <FaPlus className="icon" /> Tạo playlist mới
-        </a>
+        </NavLink>
       </div>
     </aside>
   );

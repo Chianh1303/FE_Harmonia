@@ -19,7 +19,7 @@ export default function FeaturedPlaylists({ songs = [], player }) {
   ] : [];
 
   if (songs.length === 0) {
-    return null; // Don't show section if no songs
+    return null; 
   }
   return (
     <Section
@@ -30,6 +30,7 @@ export default function FeaturedPlaylists({ songs = [], player }) {
         {playlists.map((pl) => (
           <PlaylistCard
             key={pl.id}
+            
             item={pl}
             onPlay={() => {
               const first = songs.find((s) => s.id === pl.songs[0]);

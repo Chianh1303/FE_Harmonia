@@ -4,7 +4,7 @@ import SongRow from "../SongRow/SongRow";
 import "./Hero.css";
 
 export default function Hero({ player, songs = [] }) {
-  const heroSongs = songs.slice(0, 5);
+  const heroSongs = songs.slice(0, 4);
 
   return (
     <div className="hero">
