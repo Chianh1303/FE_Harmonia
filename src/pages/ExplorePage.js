@@ -24,7 +24,7 @@ export default function ExplorePage({ songs, player }) {
             <div
               key={song.id}
               className="song-card"
-              onClick={() => player.play(song)}
+              onClick={() => player.playTrack(song)}
             >
               <img src={song.cover} alt={song.title} />
               <div className="song-info">
@@ -44,7 +44,7 @@ export default function ExplorePage({ songs, player }) {
             <div
               key={song.id}
               className="song-card"
-              onClick={() => player.play(song)}
+              onClick={() => player.playTrack(song)}
             >
               <img src={song.cover} alt={song.title} />
               <div className="song-info">

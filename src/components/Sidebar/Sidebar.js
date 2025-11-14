@@ -13,6 +13,14 @@ import {
 import "./Sidebar.css";
 
 export default function Sidebar() {
+  // 👉 Hàm xử lý khi bấm nút đăng nhập
+  const handleLoginClick = () => {
+    // Chuyển hướng sang trang login của backend
+    window.location.href = "http://localhost:8080/login"; 
+    // 🔸 Bạn có thể đổi URL trên thành domain thực tế của backend, ví dụ:
+    // window.location.href = "https://harmonia-api.com/login";
+  };
+ 
   return (
     <aside className="sidebar">
       <div className="logo">🎵 Harmonia</div>
@@ -75,7 +83,10 @@ export default function Sidebar() {
         <div className="login-text">
           Đăng nhập để khám phá playlist dành riêng cho bạn
         </div>
-        <button className="login-btn">ĐĂNG NHẬP</button>
+        {/* ✅ Nút đăng nhập chuyển sang backend */}
+        <button className="login-btn" onClick={handleLoginClick}>
+          ĐĂNG NHẬP
+        </button>
       </div>
 
       <div className="create-playlist">

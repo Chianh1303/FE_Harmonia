@@ -93,7 +93,7 @@ export default function Top100Page({ songs = [], player }) {
               </div>
               <button
                 className="play-btn"
-                onClick={() => player.playSong(song)}
+                onClick={() => player.playTrack(song)}
               >
                 <FaPlay />
               </button>
