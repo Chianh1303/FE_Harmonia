@@ -27,12 +27,16 @@ export default function useAudioPlayer(initialTrack) {
       setIsPlaying(false);
       setProgress(0);
     };
+    
+   const onLoadedMetadata = () => {
+  setProgress(0);
+  setTrack((prev) => ({
+    ...prev,
+    duration: audio.duration, // gắn thêm duration
+  }));
+};
 
-    const onLoadedMetadata = () => {
-      setDuration(audio.duration);
-    };
-
-
+    
     const onError = (e) => {
       setIsPlaying(false);
     };
