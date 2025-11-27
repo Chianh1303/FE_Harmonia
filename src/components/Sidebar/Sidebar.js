@@ -16,7 +16,7 @@ export default function Sidebar() {
   // 👉 Hàm xử lý khi bấm nút đăng nhập
   const handleLoginClick = () => {
     // Chuyển hướng sang trang login của backend
-    window.location.href = "http://localhost:8080/login"; 
+    window.location.href = "http://localhost:8080/user/signIn/view/login"; 
     // 🔸 Bạn có thể đổi URL trên thành domain thực tế của backend, ví dụ:
     // window.location.href = "https://harmonia-api.com/login";
   };

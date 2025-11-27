@@ -14,6 +14,7 @@ import Hero from "./components/Hero/Hero";
 import ZingChart from "./components/ZingChart/ZingChart";
 import NewReleases from "./components/NewReleases/NewReleases";
 import FeaturedPlaylists from "./components/FeaturedPlaylists/FeaturedPlaylists";
+import AuthPage from "./components/SignIn/AuthPage";
 
 // Pages
 import Top100Page from "./pages/Top100Page";
